@@ -17,4 +17,10 @@ class ImageViewModel: ObservableObject {
  
 */
     
+    @Published var photoPickerViewModel: PhotoPickerViewModel
+    
+    init(photoPickerViewModel: PhotoPickerViewModel) {
+        self.photoPickerViewModel = photoPickerViewModel
+    }
+    
 }

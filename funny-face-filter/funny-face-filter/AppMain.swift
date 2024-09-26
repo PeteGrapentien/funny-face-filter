@@ -14,7 +14,20 @@ struct AppMain: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                TabView {
+                    ContentView()
+                }.navigationTitle("Funny Faces").toolbar {
+                    PhotosPicker(
+                      selection: $photoPickerViewModel.pickerPhoto,
+                      matching: .images,
+                      photoLibrary: .shared()
+                    ) {
+                      Image(systemName: "photo.on.rectangle.angled")
+                        .imageScale(.large)
+                    }
+                }
+            }
         }
     }
 }
