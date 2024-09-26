@@ -12,17 +12,20 @@ import SwiftUI
  */
 
 struct ContentView: View {
+    @StateObject var viewModel: ImageViewModel
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if let image = viewModel.photoPickerViewModel.selectedPhoto?.image {
+                Image(uiImage: image)
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+            }
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: ImageViewModel(photoPickerViewModel: PhotoPickerViewModel()))
 }

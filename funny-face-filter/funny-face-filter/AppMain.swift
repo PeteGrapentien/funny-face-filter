@@ -16,7 +16,7 @@ struct AppMain: App {
         WindowGroup {
             NavigationView {
                 TabView {
-                    ContentView()
+                    ContentView(viewModel: .init(photoPickerViewModel: photoPickerViewModel))
                 }.navigationTitle("Funny Faces").toolbar {
                     PhotosPicker(
                       selection: $photoPickerViewModel.pickerPhoto,
