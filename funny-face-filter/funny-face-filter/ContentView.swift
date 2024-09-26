@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/*
+    Display selected image and buttons here
+ */
+
 struct ContentView: View {
     var body: some View {
         VStack {
