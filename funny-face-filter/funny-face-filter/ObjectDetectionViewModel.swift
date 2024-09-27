@@ -31,16 +31,11 @@
 /// THE SOFTWARE.
 
 import SwiftUI
-import Combine
 import Vision
 import OSLog
 
-let logger = Logger() as Logger
-
-class ImageViewModel: ObservableObject {
-  @Published var faceRectangles: [CGRect] = []
-  @Published var currentIndex: Int = 0
-  @Published var errorMessage: String? = nil
+class ObjectDetectionViewModel: ObservableObject {
+  @Published var classification: String?
   
   // Shared PhotoPickerViewModel
   @Published var photoPickerViewModel: PhotoPickerViewModel
@@ -49,72 +44,45 @@ class ImageViewModel: ObservableObject {
     self.photoPickerViewModel = photoPickerViewModel
   }
   
-  @MainActor func detectFaces() {
-    currentIndex = 0
-    guard let image = photoPickerViewModel.selectedPhoto?.image else {
-      DispatchQueue.main.async {
-        self.errorMessage = "No image available"
-      }
+  @MainActor func classifyImage() {
+    guard let image = photoPickerViewModel.selectedPhoto?.image, let cgImage = image.cgImage else {
       return
     }
-    
-    guard let cgImage = image.cgImage else {
+    let request = VNClassifyImageRequest { [weak self] request, error in
       DispatchQueue.main.async {
-        self.errorMessage = "Failed to convert UIImage to CGImage"
-      }
-      return
-    }
-    
-    let faceDetectionRequest = VNDetectFaceRectanglesRequest { [weak self] request, error in
-      if let error = error {
-        DispatchQueue.main.async {
-          self?.errorMessage = "Face detection error: \(error.localizedDescription)"
+        //process the request.results
+        if let results = request.results as?
+          [VNClassificationObservation] {
+          let sortedResults = results
+            .filter { $0.confidence > 0.01 }
+            .sorted(by: { $0.confidence > $1.confidence })
+            .map { "\($0.identifier) - \((Int($0.confidence * 100)))%" }
+            .joined(separator: ", ")
+          if !sortedResults.isEmpty {
+              self?.classification = sortedResults
+            } else {
+              self?.classification = "Unknown"
+          }
         }
-        return
-      }
         
-    //PETE - This is where we're creating the rectangles for the face
-        
-    let rectangles: [CGRect] = request.results?.compactMap {
-            guard let observation = $0 as? VNFaceObservation else { return nil }
-            return observation.boundingBox
-      } ?? []
-              
-    DispatchQueue.main.async {
-        self?.faceRectangles = rectangles
-        self?.errorMessage = rectangles.isEmpty ? "No faces detected" : nil
       }
-         
-      
     }
-    
 #if targetEnvironment(simulator)
-    faceDetectionRequest.usesCPUOnly = true
+    request.usesCPUOnly = true
 #endif
+    //What animals does the model know about
+    if let objects = try? request.supportedIdentifiers() {
+      for object in objects {
+        logger.debug("Object: \(object)")
+      }
+    }
     
     let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-    
     do {
-      try handler.perform([faceDetectionRequest])
+      try handler.perform([request])
     } catch {
-      DispatchQueue.main.async {
-        self.errorMessage = "Failed to perform detection: \(error.localizedDescription)"
-      }
+      print("Failed to perform classification.\n\(error.localizedDescription)")
+      self.classification = "Error"
     }
-  }
-  
-  func nextFace() {
-    if faceRectangles.isEmpty { return }
-    currentIndex = (currentIndex + 1) % faceRectangles.count
-  }
-  
-  func previousFace() {
-    if faceRectangles.isEmpty { return }
-    currentIndex = (currentIndex - 1 + faceRectangles.count) % faceRectangles.count
-  }
-  
-  var currentFace: CGRect? {
-    guard !faceRectangles.isEmpty else { return nil }
-    return faceRectangles[currentIndex]
   }
 }

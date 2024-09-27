@@ -33,38 +33,42 @@
 import SwiftUI
 import PhotosUI
 
-struct Photo: Identifiable {
-  let id = UUID()
-  let image: UIImage
-}
-
-@MainActor
-class PhotoPickerViewModel: ObservableObject {
-  @Published var selectedPhoto: Photo?
-  @Published var imageSelection: PhotosPickerItem? {
-    didSet {
-      if let item = imageSelection {
-        loadPhoto(from: item)
-      }
-    }
-  }
+struct FacesView: View {
+  @StateObject var viewModel: ImageViewModel
   
-  private func loadPhoto(from item: PhotosPickerItem) {
-    item.loadTransferable(type: Data.self) { result in
-      switch result {
-      case .success(let data):
-        if let data = data, let image = UIImage(data: data) {
-          DispatchQueue.main.async {
-            self.selectPhoto(image)
+  var body: some View {
+    VStack {
+      if let image = viewModel.photoPickerViewModel.selectedPhoto?.image.drawVisionRect(viewModel.currentFace) {
+        Image(uiImage: image)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+        
+        HStack {
+          Button("Previous") {
+            viewModel.previousFace()
           }
+          .padding()
+          
+          Button("Detect Faces") {
+            viewModel.detectFaces()
+          }
+          .padding()
+          
+          Button("Next") {
+            viewModel.nextFace()
+          }
+          .padding()
         }
-      case .failure(let error):
-        print("Error loading photo: \(error.localizedDescription)")
+        
+        if let errorMessage = viewModel.errorMessage {
+          Text(errorMessage)
+            .foregroundColor(.red)
+            .padding()
+        }
+      } else {
+        Text("No image available")
       }
     }
-  }
-  
-  func selectPhoto(_ photo: UIImage) {
-    selectedPhoto = Photo(image: photo)
+    .padding()
   }
 }

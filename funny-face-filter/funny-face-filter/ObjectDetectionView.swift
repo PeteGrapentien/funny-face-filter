@@ -31,40 +31,39 @@
 /// THE SOFTWARE.
 
 import SwiftUI
-import PhotosUI
 
-struct Photo: Identifiable {
-  let id = UUID()
-  let image: UIImage
-}
-
-@MainActor
-class PhotoPickerViewModel: ObservableObject {
-  @Published var selectedPhoto: Photo?
-  @Published var imageSelection: PhotosPickerItem? {
-    didSet {
-      if let item = imageSelection {
-        loadPhoto(from: item)
-      }
-    }
-  }
+struct ObjectDetectionView: View {
   
-  private func loadPhoto(from item: PhotosPickerItem) {
-    item.loadTransferable(type: Data.self) { result in
-      switch result {
-      case .success(let data):
-        if let data = data, let image = UIImage(data: data) {
-          DispatchQueue.main.async {
-            self.selectPhoto(image)
+  @StateObject var viewModel: ObjectDetectionViewModel
+  
+  var body: some View {
+    NavigationStack {
+      VStack {
+        if let image = viewModel.photoPickerViewModel.selectedPhoto?.image {
+          GeometryReader { geometry in
+            Image(uiImage: image)
+              .resizable()
+              .scaledToFit()
+              .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
           }
+          .padding()
+          
+          Spacer()
+          
+          Text(viewModel.classification ?? "")
+            .font(.title)
+            .padding()
+          
+          Spacer()
+          
+          Button("Classify Image") {
+            viewModel.classifyImage()
+          }
+          .padding()
+        } else {
+          Text("No image available")
         }
-      case .failure(let error):
-        print("Error loading photo: \(error.localizedDescription)")
       }
     }
-  }
-  
-  func selectPhoto(_ photo: UIImage) {
-    selectedPhoto = Photo(image: photo)
   }
 }

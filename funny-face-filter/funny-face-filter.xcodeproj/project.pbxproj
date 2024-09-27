@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A7726512CA4EB2E005A58B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7726502CA4EB2E005A58B7 /* ContentView.swift */; };
 		9A7726532CA4EB34005A58B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A7726522CA4EB34005A58B7 /* Assets.xcassets */; };
 		9A7726572CA4EB34005A58B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A7726562CA4EB34005A58B7 /* Preview Assets.xcassets */; };
 		9A7726612CA4EB34005A58B7 /* funny_face_filterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7726602CA4EB34005A58B7 /* funny_face_filterTests.swift */; };
 		9A77266B2CA4EB34005A58B7 /* funny_face_filterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A77266A2CA4EB34005A58B7 /* funny_face_filterUITests.swift */; };
 		9A77266D2CA4EB34005A58B7 /* funny_face_filterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A77266C2CA4EB34005A58B7 /* funny_face_filterUITestsLaunchTests.swift */; };
+		9AC7A8692CA72BA9008031A9 /* FacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC7A8682CA72BA9008031A9 /* FacesView.swift */; };
+		9AC7A86B2CA72BCF008031A9 /* ObjectDetectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC7A86A2CA72BCF008031A9 /* ObjectDetectionViewModel.swift */; };
+		9AC7A86D2CA72BE8008031A9 /* ObjectDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC7A86C2CA72BE8008031A9 /* ObjectDetectionView.swift */; };
+		9AC7A86F2CA72C09008031A9 /* UIImage+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC7A86E2CA72C09008031A9 /* UIImage+Helpers.swift */; };
 		9AF36A542CA5928C007F4EB8 /* AppMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF36A532CA5928C007F4EB8 /* AppMain.swift */; };
 		9AF36A562CA5932B007F4EB8 /* PhotoPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF36A552CA5932B007F4EB8 /* PhotoPickerViewModel.swift */; };
 		9AF36A582CA594F4007F4EB8 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF36A572CA594F4007F4EB8 /* ImageViewModel.swift */; };
@@ -37,7 +40,6 @@
 
 /* Begin PBXFileReference section */
 		9A77264B2CA4EB2E005A58B7 /* funny-face-filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "funny-face-filter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A7726502CA4EB2E005A58B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9A7726522CA4EB34005A58B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A7726542CA4EB34005A58B7 /* funny_face_filter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = funny_face_filter.entitlements; sourceTree = "<group>"; };
 		9A7726562CA4EB34005A58B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -47,6 +49,10 @@
 		9A77266A2CA4EB34005A58B7 /* funny_face_filterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = funny_face_filterUITests.swift; sourceTree = "<group>"; };
 		9A77266C2CA4EB34005A58B7 /* funny_face_filterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = funny_face_filterUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9A7726792CA58E63005A58B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9AC7A8682CA72BA9008031A9 /* FacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacesView.swift; sourceTree = "<group>"; };
+		9AC7A86A2CA72BCF008031A9 /* ObjectDetectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionViewModel.swift; sourceTree = "<group>"; };
+		9AC7A86C2CA72BE8008031A9 /* ObjectDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectionView.swift; sourceTree = "<group>"; };
+		9AC7A86E2CA72C09008031A9 /* UIImage+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Helpers.swift"; sourceTree = "<group>"; };
 		9AF36A532CA5928C007F4EB8 /* AppMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMain.swift; sourceTree = "<group>"; };
 		9AF36A552CA5932B007F4EB8 /* PhotoPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewModel.swift; sourceTree = "<group>"; };
 		9AF36A572CA594F4007F4EB8 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
@@ -102,9 +108,12 @@
 			children = (
 				9A7726792CA58E63005A58B7 /* Info.plist */,
 				9AF36A532CA5928C007F4EB8 /* AppMain.swift */,
+				9AC7A86A2CA72BCF008031A9 /* ObjectDetectionViewModel.swift */,
+				9AC7A86C2CA72BE8008031A9 /* ObjectDetectionView.swift */,
+				9AC7A86E2CA72C09008031A9 /* UIImage+Helpers.swift */,
 				9AF36A552CA5932B007F4EB8 /* PhotoPickerViewModel.swift */,
 				9AF36A572CA594F4007F4EB8 /* ImageViewModel.swift */,
-				9A7726502CA4EB2E005A58B7 /* ContentView.swift */,
+				9AC7A8682CA72BA9008031A9 /* FacesView.swift */,
 				9A7726522CA4EB34005A58B7 /* Assets.xcassets */,
 				9A7726542CA4EB34005A58B7 /* funny_face_filter.entitlements */,
 				9A7726552CA4EB34005A58B7 /* Preview Content */,
@@ -267,10 +276,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A7726512CA4EB2E005A58B7 /* ContentView.swift in Sources */,
 				9AF36A542CA5928C007F4EB8 /* AppMain.swift in Sources */,
+				9AC7A86D2CA72BE8008031A9 /* ObjectDetectionView.swift in Sources */,
 				9AF36A582CA594F4007F4EB8 /* ImageViewModel.swift in Sources */,
+				9AC7A86F2CA72C09008031A9 /* UIImage+Helpers.swift in Sources */,
 				9AF36A562CA5932B007F4EB8 /* PhotoPickerViewModel.swift in Sources */,
+				9AC7A86B2CA72BCF008031A9 /* ObjectDetectionViewModel.swift in Sources */,
+				9AC7A8692CA72BA9008031A9 /* FacesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
