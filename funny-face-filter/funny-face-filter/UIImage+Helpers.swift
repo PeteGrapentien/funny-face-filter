@@ -74,14 +74,23 @@ extension UIImage {
     let correctedRect = VNImageRectForNormalizedRect(visionRect, Int(imageSize.width), Int(imageSize.height))
     
     // Draw the vision rectangle with a red fill and stroke.
-    UIColor.white.withAlphaComponent(0.3).setFill()
-    let rectPath = UIBezierPath(rect: correctedRect)
+    UIColor.black.withAlphaComponent(0.3).setFill()
+      let rectPath = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
     rectPath.fill()
     
-    UIColor.red.setStroke()
-    rectPath.lineWidth = 2.0
+    UIColor.white.setStroke()
+    rectPath.lineWidth = 5.0
     rectPath.stroke()
-    
+      
+      //Use the code below to draw another circle for a second eye
+//      UIColor.blue.withAlphaComponent(0.3).setFill()
+//        let rectPath2 = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
+//      rectPath.fill()
+//      
+//      UIColor.blue.setStroke()
+//      rectPath2.lineWidth = 5.0
+//      rectPath2.stroke()
+      
     // Get the resulting image from the current context.
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
     
