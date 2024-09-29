@@ -42,7 +42,7 @@ extension UIImage {
   ///
   /// - Parameter visionRect: The rectangle to be drawn, provided in normalized coordinates.
   /// - Returns: A new `UIImage` with the vision rectangle drawn, or the original image if inputs are invalid.
-  func drawVisionRect(_ visionRect: CGRect?) -> UIImage? {
+  func drawVisionRect(_ visionRect: FaceModel?) -> UIImage? {
     
     logger.debug("Original UIImage has an orientation of: \(self.imageOrientation.rawValue)")
     // Ensure the image's CGImage representation is available.
@@ -71,7 +71,8 @@ extension UIImage {
     
     
     // Calculate the rectangle using Vision's coordinate system to image coordinates.
-    let correctedRect = VNImageRectForNormalizedRect(visionRect, Int(imageSize.width), Int(imageSize.height))
+      let correctedRect = VNImageRectForNormalizedRect(visionRect.boundingBox, Int(imageSize.width), Int(imageSize.height))
+    
     
     // Draw the vision rectangle with a red fill and stroke.
     UIColor.black.withAlphaComponent(0.3).setFill()

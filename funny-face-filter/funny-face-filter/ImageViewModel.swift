@@ -38,7 +38,7 @@ import OSLog
 let logger = Logger() as Logger
 
 class ImageViewModel: ObservableObject {
-  @Published var faceRectangles: [CGRect] = []
+  @Published var faceRectangles: [FaceModel] = []
   @Published var currentIndex: Int = 0
   @Published var errorMessage: String? = nil
   
@@ -75,9 +75,12 @@ class ImageViewModel: ObservableObject {
         
     //PETE - This is where we're creating the rectangles for the face
         
-    let rectangles: [CGRect] = request.results?.compactMap {
-            guard let observation = $0 as? VNFaceObservation else { return nil }
-            return observation.boundingBox
+    let rectangles: [FaceModel] = request.results?.compactMap {
+            guard let observation = $0 as? VNFaceObservation else { return FaceModel() }
+            let faceModel = FaceModel()
+        faceModel.boundingBox = observation.boundingBox
+        faceModel.observation = observation
+            return faceModel
       } ?? []
               
     DispatchQueue.main.async {
@@ -113,7 +116,7 @@ class ImageViewModel: ObservableObject {
     currentIndex = (currentIndex - 1 + faceRectangles.count) % faceRectangles.count
   }
   
-  var currentFace: CGRect? {
+  var currentFace: FaceModel? {
     guard !faceRectangles.isEmpty else { return nil }
     return faceRectangles[currentIndex]
   }
