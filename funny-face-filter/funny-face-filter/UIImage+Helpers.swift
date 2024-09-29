@@ -72,25 +72,35 @@ extension UIImage {
     
     // Calculate the rectangle using Vision's coordinate system to image coordinates.
       let correctedRect = VNImageRectForNormalizedRect(visionRect.boundingBox, Int(imageSize.width), Int(imageSize.height))
+      
+      let leftEyeNormalizedRect = VNImageRectForNormalizedRect(visionRect.leftEyeRect,Int(imageSize.width), Int(imageSize.height))
+      
+      let rightEyeNormalizedRect = VNImageRectForNormalizedRect(visionRect.rightEyeRect, Int(imageSize.width), Int(imageSize.height))
     
     
-    // Draw the vision rectangle with a red fill and stroke.
+    // Draw the vision rectangle for face.
     UIColor.black.withAlphaComponent(0.3).setFill()
-      let rectPath = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
+    let rectPath = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
     rectPath.fill()
-    
     UIColor.white.setStroke()
     rectPath.lineWidth = 5.0
     rectPath.stroke()
       
-      //Use the code below to draw another circle for a second eye
-//      UIColor.blue.withAlphaComponent(0.3).setFill()
-//        let rectPath2 = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
-//      rectPath.fill()
-//      
-//      UIColor.blue.setStroke()
-//      rectPath2.lineWidth = 5.0
-//      rectPath2.stroke()
+      // Draw the vision rectangle for left eye.
+      UIColor.black.withAlphaComponent(0.3).setFill()
+      let leftEyeRectPath = UIBezierPath(roundedRect: leftEyeNormalizedRect, cornerRadius: correctedRect.height + 10)
+      leftEyeRectPath.fill()
+      UIColor.white.setStroke()
+      leftEyeRectPath.lineWidth = 50
+      leftEyeRectPath.stroke()
+      
+      // Draw the vision rectangle for left eye.
+      UIColor.black.withAlphaComponent(0.3).setFill()
+      let rightEyeNormalizedRectPath = UIBezierPath(roundedRect: rightEyeNormalizedRect, cornerRadius: correctedRect.height + 10)
+      rightEyeNormalizedRectPath.fill()
+      UIColor.white.setStroke()
+      rightEyeNormalizedRectPath.lineWidth = 50
+      rightEyeNormalizedRectPath.stroke()
       
     // Get the resulting image from the current context.
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
