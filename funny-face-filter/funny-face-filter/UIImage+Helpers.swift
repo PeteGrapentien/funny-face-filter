@@ -73,34 +73,28 @@ extension UIImage {
     // Calculate the rectangle using Vision's coordinate system to image coordinates.
       let correctedRect = VNImageRectForNormalizedRect(visionRect.boundingBox, Int(imageSize.width), Int(imageSize.height))
       
-      let leftEyeNormalizedRect = VNImageRectForNormalizedRect(visionRect.leftEyeRect,Int(imageSize.width), Int(imageSize.height))
+      guard let leftEyepoints = visionRect.observation.landmarks?.leftEye?.normalizedPoints else { return nil }
+      guard let rightEyepoints = visionRect.observation.landmarks?.rightEye?.normalizedPoints else { return nil }
       
-      let rightEyeNormalizedRect = VNImageRectForNormalizedRect(visionRect.rightEyeRect, Int(imageSize.width), Int(imageSize.height))
-    
-    
-    // Draw the vision rectangle for face.
-    UIColor.black.withAlphaComponent(0.3).setFill()
-    let rectPath = UIBezierPath(roundedRect: correctedRect, cornerRadius: correctedRect.height + 10)
-    rectPath.fill()
-    UIColor.white.setStroke()
-    rectPath.lineWidth = 5.0
-    rectPath.stroke()
+      let leftEyeRect = createEyeBoundingBox(points: leftEyepoints, faceBoundingBox: visionRect.boundingBox, imageSize: imageSize)
       
-      // Draw the vision rectangle for left eye.
-      UIColor.black.withAlphaComponent(0.3).setFill()
-      let leftEyeRectPath = UIBezierPath(roundedRect: leftEyeNormalizedRect, cornerRadius: correctedRect.height + 10)
-      leftEyeRectPath.fill()
-      UIColor.white.setStroke()
-      leftEyeRectPath.lineWidth = 50
-      leftEyeRectPath.stroke()
+      let rightEyeRect = createEyeBoundingBox(points: rightEyepoints, faceBoundingBox: visionRect.boundingBox, imageSize: imageSize)
       
-      // Draw the vision rectangle for left eye.
-      UIColor.black.withAlphaComponent(0.3).setFill()
-      let rightEyeNormalizedRectPath = UIBezierPath(roundedRect: rightEyeNormalizedRect, cornerRadius: correctedRect.height + 10)
-      rightEyeNormalizedRectPath.fill()
-      UIColor.white.setStroke()
-      rightEyeNormalizedRectPath.lineWidth = 50
-      rightEyeNormalizedRectPath.stroke()
+//      // Draw the vision rectangle for left eye.
+        UIColor.black.withAlphaComponent(0.3).setFill()
+        let leftEyeRectPath = UIBezierPath(roundedRect: leftEyeRect, cornerRadius: correctedRect.height + 10)
+        leftEyeRectPath.fill()
+        UIColor.white.setStroke()
+        leftEyeRectPath.lineWidth = 10
+        leftEyeRectPath.stroke()
+
+      //      // Draw the vision rectangle for left eye.
+        UIColor.black.withAlphaComponent(0.3).setFill()
+        let rightEyeRectPath = UIBezierPath(roundedRect: rightEyeRect, cornerRadius: correctedRect.height + 10)
+        rightEyeRectPath.fill()
+        UIColor.white.setStroke()
+        rightEyeRectPath.lineWidth = 10
+        rightEyeRectPath.stroke()
       
     // Get the resulting image from the current context.
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -121,6 +115,19 @@ extension UIImage {
     logger.debug("Final image needs an orientation of \(correctlyOrientedImage.imageOrientation.rawValue) to look right.")
     return correctlyOrientedImage
   }
+    
+    private func createEyeBoundingBox(points: [CGPoint], faceBoundingBox: CGRect, imageSize: CGSize) -> CGRect {
+            
+            let minX = points.min { $0.x < $1.x }!.x
+            let minY = points.min { $0.y < $1.y }!.y
+            let maxX = points.max { $0.x < $1.x }!.x
+            let maxY = points.max { $0.y < $1.y }!.y
+            let minPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(minX), Float(minY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
+            let maxPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(maxX), Float(maxY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
+            let correctedRect = CGRect(x: minPoint.x, y: minPoint.y, width: maxPoint.x - minPoint.x, height: maxPoint.y - minPoint.y)
+        
+        return correctedRect
+    }
   
   /// Adjusts the orientation of the image based on its current orientation.
   ///
