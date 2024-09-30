@@ -73,21 +73,11 @@ class ImageViewModel: ObservableObject {
         return
       }
         
-    //PETE - This is where we're creating the rectangles for the face
-        
     let rectangles: [FaceModel] = request.results?.compactMap {
         guard let observation = $0 as? VNFaceObservation else { return FaceModel() }
         let faceModel = FaceModel()
+        
         faceModel.boundingBox = observation.boundingBox
-        
-        guard let leftEyePoints = observation.landmarks?.leftEye?.normalizedPoints.first else { return faceModel }
-        guard let rightEyePoints = observation.landmarks?.rightEye?.normalizedPoints.first else { return faceModel }
-        let leftEyeRect = CGRect(x: leftEyePoints.x, y: leftEyePoints.y, width: (observation.boundingBox.width / 4), height: (observation.boundingBox.height / 4))
-        let rightEyeRect = CGRect(x: rightEyePoints.x, y: rightEyePoints.y, width: (observation.boundingBox.width / 4), height: (observation.boundingBox.height / 4))
-        
-        faceModel.leftEyeRect = leftEyeRect
-        faceModel.rightEyeRect = rightEyeRect
-        
         faceModel.observation = observation
             return faceModel
       } ?? []

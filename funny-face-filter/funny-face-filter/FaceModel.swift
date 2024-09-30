@@ -10,7 +10,5 @@ import Vision
 
 class FaceModel {
     var boundingBox: CGRect = CGRect()
-    var leftEyeRect: CGRect = CGRect()
-    var rightEyeRect: CGRect = CGRect()
     var observation: VNFaceObservation = VNFaceObservation()
 }

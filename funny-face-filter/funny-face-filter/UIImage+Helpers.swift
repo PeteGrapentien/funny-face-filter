@@ -117,14 +117,15 @@ extension UIImage {
   }
     
     private func createEyeBoundingBox(points: [CGPoint], faceBoundingBox: CGRect, imageSize: CGSize) -> CGRect {
-            
-            let minX = points.min { $0.x < $1.x }!.x
-            let minY = points.min { $0.y < $1.y }!.y
-            let maxX = points.max { $0.x < $1.x }!.x
-            let maxY = points.max { $0.y < $1.y }!.y
-            let minPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(minX), Float(minY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
-            let maxPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(maxX), Float(maxY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
-            let correctedRect = CGRect(x: minPoint.x, y: minPoint.y, width: maxPoint.x - minPoint.x, height: maxPoint.y - minPoint.y)
+        if points.isEmpty { return CGRect() }
+        
+        let minX = points.min { $0.x < $1.x }!.x
+        let minY = points.min { $0.y < $1.y }!.y
+        let maxX = points.max { $0.x < $1.x }!.x
+        let maxY = points.max { $0.y < $1.y }!.y
+        let minPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(minX), Float(minY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
+        let maxPoint = VNImagePointForFaceLandmarkPoint( vector_float2(Float(maxX), Float(maxY)), faceBoundingBox, Int(imageSize.width), Int(imageSize.height))
+        let correctedRect = CGRect(x: minPoint.x, y: minPoint.y, width: maxPoint.x - minPoint.x, height: maxPoint.y - minPoint.y)
         
         return correctedRect
     }
