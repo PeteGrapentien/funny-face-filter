@@ -41,13 +41,7 @@ struct FaceAndTextDetectionApp: App {
       NavigationView {
         TabView {
           FacesView(viewModel: .init(photoPickerViewModel: photoPickerViewModel))
-            .tabItem {
-              Label("Faces", systemImage: "face.smiling")
-            }
           ObjectDetectionView(viewModel: .init(photoPickerViewModel: photoPickerViewModel))
-            .tabItem {
-              Label("Animals", systemImage: "dog")
-            }
         }.navigationTitle("Vision Demo")
           .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
